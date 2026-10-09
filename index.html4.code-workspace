@@ -1,8 +1,196 @@
-{
-	"folders": [
-		{
-			"path": "blog-website"
-		}
-	],
-	"settings": {}
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kanban vs Scrum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f4f8;
+            margin: 0;
+            padding: 25px;
+            color: #222;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        .workflow {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .stage {
+            background: #dce8ff;
+            padding: 18px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background: #243b64;
+            color: white;
+        }
+
+        .metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .metric {
+            flex: 1;
+            min-width: 150px;
+            background: #e5f5e9;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        .metric h3 {
+            margin: 5px;
+            font-size: 26px;
+        }
+
+        .comparison {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Kanban vs Scrum</h1>
+    <p style="text-align:center">
+        A simple task tracking and workflow analysis system
+    </p>
+
+    <h2>Kanban Workflow</h2>
+    <div class="workflow">
+        <div class="stage">To Do</div>
+        <div class="stage">In Progress</div>
+        <div class="stage">Review</div>
+        <div class="stage">Done</div>
+    </div>
+
+    <h2>Support Ticket Tracking</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ticket</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Lead Time (Days)</th>
+                <th>Cycle Time (Days)</th>
+            </tr>
+        </thead>
+        <tbody id="ticketTable"></tbody>
+    </table>
+
+    <div class="metrics">
+        <div class="metric">
+            Total Tickets
+            <h3 id="total">0</h3>
+        </div>
+        <div class="metric">
+            Completed Tickets
+            <h3 id="completed">0</h3>
+        </div>
+        <div class="metric">
+            Average Lead Time
+            <h3 id="lead">0</h3>
+        </div>
+        <div class="metric">
+            Average Cycle Time
+            <h3 id="cycle">0</h3>
+        </div>
+    </div>
+
+    <div class="comparison">
+        <h2>Kanban vs Scrum</h2>
+        <table>
+            <tr>
+                <th>Kanban</th>
+                <th>Scrum</th>
+            </tr>
+            <tr>
+                <td>Continuous workflow</td>
+                <td>Fixed-length sprints</td>
+            </tr>
+            <tr>
+                <td>Uses WIP limits</td>
+                <td>Uses sprint planning and goals</td>
+            </tr>
+            <tr>
+                <td>Flexible priorities</td>
+                <td>Planned sprint commitments</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    const tickets = [
+        [2,1], [3,2], [4,2], [2,1], [5,3],
+        [3,2], [4,3], [2,1], [6,4], [3,2],
+        [4,2], [5,3], [3,2], [4,3], [2,1]
+    ];
+
+    let leadTotal = 0;
+    let cycleTotal = 0;
+
+    tickets.forEach((ticket, index) => {
+        const [lead, cycle] = ticket;
+        leadTotal += lead;
+        cycleTotal += cycle;
+
+        document.getElementById("ticketTable").innerHTML += `
+            <tr>
+                <td>K-${String(index + 1).padStart(2, "0")}</td>
+                <td>Support Ticket</td>
+                <td>Done</td>
+                <td>${lead}</td>
+                <td>${cycle}</td>
+            </tr>
+        `;
+    });
+
+    document.getElementById("total").textContent = tickets.length;
+    document.getElementById("completed").textContent =
+        tickets.filter(ticket => ticket).length;
+
+    document.getElementById("lead").textContent =
+        (leadTotal / tickets.length).toFixed(2) + " days";
+
+    document.getElementById("cycle").textContent =
+        (cycleTotal / tickets.length).toFixed(2) + " days";
+</script>
+
+</body>
+</html>
